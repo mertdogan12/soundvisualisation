@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Sound Visual</title>
+        <!-- https://medium.com/swlh/building-a-audio-visualizer-with-javascript-324b8d420e7 -->
+    </head>
+    <body>
+        <canvas id="audio_visual" height="500" width="500"></canvas>
+        <audio id="source" src="./music/sound.mp3"></audio>
+
+        <script>
+            let canvas = document.getElementById("audio_visual")
+            let ctx = canvas.getContext("2d");
+
+            let audioElement = document.getElementById("source");
+            let audioCtx = new AudioContext();
+            let analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 2048;
+            let source = audioCtx.createMediaElementSource(audioElement);
+            
+            //this connects our music back to the default output, such as your speakers 
+            source.connect(analyser);
+            source.connect(audioCtx.destination);
+        </script>
+    </body>
+</html>
+
