@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var getSong = require("./routes/getSong");
 var playSong = require("./routes/playSong");
+var cors = require('cors');
 // var usersRouter = require('./routes/users');
 
 var app = express();
@@ -14,6 +15,8 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());

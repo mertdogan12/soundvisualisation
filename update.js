@@ -1,8 +1,6 @@
-import conf from "./conf.json";
-
 async function getUpdate() {
     try {
-        const res = (await fetch(conf.host + "getSong")).json();
+        const res = await (await fetch("http://localhost:3000/getSong")).json();
 
         console.log(res.currentSong);
     } catch(e) {
