@@ -3,12 +3,11 @@ var express = require('express');
 var router = express.Router();
 
 /*
-    Sends
-        - the current Song
-        - the playing status
+    sets playing to false
 */
 router.get("/", function(req, res) {
-    res.json(Status);
+    Status.playing = false;
+    res.sendStatus(200);
 });
 
 module.exports = router;

@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var getSong = require("./routes/getSong");
 var playSong = require("./routes/playSong");
+var stopSong = require("./routes/stopSong");
 var cors = require('cors');
 // var usersRouter = require('./routes/users');
 
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 
 app.use("/getSong", getSong);
 app.use("/playSong", playSong);
+app.use("/stopSong", stopSong);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
