@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var getSong = require("./routes/getSong");
 var playSong = require("./routes/playSong");
 var stopSong = require("./routes/stopSong");
+var getSongs = require("./routes/getSongs");
 var cors = require('cors');
 // var usersRouter = require('./routes/users');
 
@@ -31,6 +32,7 @@ app.use('/', indexRouter);
 app.use("/getSong", getSong);
 app.use("/playSong", playSong);
 app.use("/stopSong", stopSong);
+app.use("/getSongs", getSongs);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
