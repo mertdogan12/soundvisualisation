@@ -16,15 +16,27 @@ router.post("/", function(req, res) {
             res.send("fileName is missing")
             return;
         }
+
+        if (r.picName == undefined) {
+            res.send("picName is missing")
+            return;
+        }
         
         let file = conf.soundPath + r.fileName;
+        let pic = conf.picPath + r.picName;
 
         if (!fs.existsSync(file)) {
             res.send("File not exist: " + file);
             return;
         };
 
+        if (!fs.existsSync(pic)) {
+            res.send("File not exist: " + pic);
+            return;
+        };
+
         Status.currentSong = r.fileName;
+        Status.pic = r.picName;
         Status.playing = true;
 
         res.sendStatus(200);

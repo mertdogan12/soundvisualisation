@@ -4,17 +4,25 @@
         <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
         <script src="jquery-3.5.1.min.js"></script>
         <script src="update.js"></script>
+        <link rel="stylesheet" href="style.css">
         <!-- https://medium.com/swlh/building-a-audio-visualizer-with-javascript-324b8d420e7 -->
     </head>
     
     <body>
-        <canvas id="audio_visual" height="500" width="500"></canvas>
+        <canvas id="audio_visual" height="1080" width="1920"></canvas>
         <audio id="source" src="./music/sound.mp3"></audio>
 
         <button id="clickMe" onclick="start()">Click Me!</button>
+
+        <picture>
+            <source srcset="" media="(min-width: 600px)">
+            <img id="pic" src="picture/lilpeep.jpg" alt="MDN">
+        </picture>
         
         <script>
             function start() {
+                document.getElementById("pic").style.visibility = "visible";
+
                 let canvas = document.getElementById("audio_visual");
                 let ctx = canvas.getContext("2d");
 
@@ -42,13 +50,18 @@
 
                 function draw(data){
                     data = [...data];
+                    data = data.slice(300, 600);
 
-                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.strokeStyle = "White";
                     let space = canvas.width / data.length;
-                    data.forEach((value,i)=>{
+
+
+                    data.forEach((value, i) => {
                         ctx.beginPath();
-                        ctx.moveTo(space*i,canvas.height); //x,y
-                        ctx.lineTo(space*i,canvas.height-value); //x,y
+                    
+                        ctx.moveTo(space * i, canvas.height); //x,y
+                        ctx.lineTo(space * i, canvas.height - value * 3); //x,y
                         ctx.stroke();
                     })
                 }   
