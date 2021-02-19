@@ -1,4 +1,4 @@
 {
-    "soundPath": "../music/",
-    "picPath": "../picture/"
+    "soundPath": "public/music/",
+    "picPath": "public/picture/"
 }

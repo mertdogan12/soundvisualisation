@@ -1,8 +1,45 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+canvas {
+    height: 100%;
+    width: 100%;
+
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
 }
 
-a {
-  color: #00B7FF;
+html {
+    background-color: rgb(34, 33, 33);
+}
+
+#pic {
+    position: absolute;
+
+    top: 10vh;
+    left: 35.5vw;
+
+    width: 25vw;
+
+    border-radius: 3px;  
+    
+    visibility: hidden; 
+}
+
+button {
+    position: absolute;
+
+    left: 45vw;
+    top: 47.5vh;
+
+    width: 10vw;
+    height: 5vh;
+
+    border: blue solid 3px;
+    border-radius: 3px;
+
+    transition: top 0.5s, border-color 0.5s;
+}
+
+button:hover {
+    top: 46.5vh;
+
+    border-color: red;
 }

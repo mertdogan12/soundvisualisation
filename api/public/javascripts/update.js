@@ -12,7 +12,7 @@ setInterval(getUpdate, 1000);
 */
 async function getUpdate() {
     try {
-        const res = await (await fetch("http://" + window.location.host + ":3000/getSong")).json();
+        const res = await (await fetch("http://" + window.location.host + "/getSong")).json();
         if (res.currentSong == undefined || res.playing == undefined || res.pic == undefined) {
             console.log("currentSong or playing or Picture is missing");
             return;
