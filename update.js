@@ -25,19 +25,20 @@ async function getUpdate() {
 
         if (res.playing) {        
 
-            if (audio.src.replace(window.location.href + "music/", "") != currentSong) {
-                stop();
-                audio.src = "music/" + currentSong;
-            } 
+            let aSrc = audio.src.includes(window.location.href) ? audio.src.replace(window.location.href + "music/", "") : audio.src;
+            let pScr = pic.src.includes(window.location.href) ? pic.src.replace(window.location.href + "picture/", "") : pic.src;
 
-            console.log(pic.src.replace(window.location.href + "picture/", ""));
-            console.log(currentPic)
-            if (pic.src.replace(window.location.href + "picture/", "") != currentPic) {
-                if (currentPic === "") {
-                    pic.src = "picture/lilpeep.jpg";
-                } else 
-                    pic.src = "picture/" + currentPic;
-            } 
+            let cSong = currentSong.includes("http") ? currentSong : "music/" + currentSong;
+            let cPic = currentPic.includes("http") ? currentPic : "picture/" + currentPic;
+
+            if (aSrc != currentSong) {
+                stop();
+                audio.src = cSong;
+            }
+
+            if (pScr != currentPic) {
+                pic.src = cPic;
+            }      
             
             run();
         } else

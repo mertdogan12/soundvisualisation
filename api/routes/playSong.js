@@ -21,19 +21,31 @@ router.post("/", function(req, res) {
             res.send("picName is missing")
             return;
         }
+
+        let file = r.fileName;
+        let pic = r.picName;
+
+        if (!r.fileName.includes("http://") ) {
+            if (!r.fileName.includes("https://")) {
+                file = conf.soundPath + r.fileName;
+
+                if (!fs.existsSync(file)) {
+                    res.send("File not exist: " + file);
+                    return;
+                };
+            }     
+        }
         
-        let file = conf.soundPath + r.fileName;
-        let pic = conf.picPath + r.picName;
+        if (!r.picName.includes("http://") ) {
+            if (!r.picName.includes("https://")) {
+                pic = conf.picPath + r.picName;
 
-        if (!fs.existsSync(file)) {
-            res.send("File not exist: " + file);
-            return;
-        };
-
-        if (!fs.existsSync(pic)) {
-            res.send("File not exist: " + pic);
-            return;
-        };
+                if (!fs.existsSync(pic)) {
+                    res.send("File not exist: " + pic);
+                    return;
+                };
+            }     
+        }
 
         Status.currentSong = r.fileName;
         Status.pic = r.picName;

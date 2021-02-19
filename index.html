@@ -72,6 +72,46 @@
             function run() {
                 let audioElement = document.getElementById("source");
                 audioElement.play();  
+
+                audioElement.onended = async () => {
+                    const res = await (await fetch("http://" + window.location.host + ":3000/getSongs")).json();
+                    let nextSong;
+
+                    if (audioElement.src.includes(window.location.href)) {
+                        let pos = res.indexOf(audioElement.src.replace(window.location.href + "music/", ""));   
+
+                        console.log(pos);
+                        console.log(res.length);
+                        console.log(audioElement.src.replace(window.location.href, ""));
+                        console.log(res);
+
+                        if (pos + 1 >= res.length) {
+                            nextSong = res[0];
+                        } else 
+                            nextSong = res[pos + 1];
+                    } else 
+                        nextSong = res[0];
+
+                    var myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/json");
+
+                    var raw = JSON.stringify({
+                        "fileName": nextSong,
+                        "picName": document.getElementById("pic").src
+                    });
+
+                    var requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: raw,
+                        redirect: 'follow'
+                    };
+
+                    fetch("http://localhost:3000/playSong", requestOptions)
+                        .then(response => response.text())
+                        .then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+                }
             }
 
             function stop() {
