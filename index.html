@@ -71,7 +71,8 @@
 
             function run() {
                 let audioElement = document.getElementById("source");
-                audioElement.play();  
+                audioElement.crossOrigin="anonymous"
+                audioElement.play();     
 
                 audioElement.onended = async () => {
                     const res = await (await fetch("http://" + window.location.host + ":3000/getSongs")).json();
