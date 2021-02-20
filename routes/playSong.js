@@ -29,7 +29,7 @@ router.post("/", function(req, res) {
             if (!r.fileName.includes("https://")) {
                 file = conf.soundPath + r.fileName;
 
-                if (!fs.existsSync(file)) {
+                if (!fs.existsSync(file) || file == conf.soundPath) {
                     res.send("File not exist: " + file);
                     return;
                 };
@@ -40,7 +40,7 @@ router.post("/", function(req, res) {
             if (!r.picName.includes("https://")) {
                 pic = conf.picPath + r.picName;
 
-                if (!fs.existsSync(pic)) {
+                if (!fs.existsSync(pic) || pic == conf.picPath) {
                     res.send("File not exist: " + pic);
                     return;
                 };

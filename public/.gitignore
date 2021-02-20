@@ -1,3 +1,4 @@
-music/*
-picture/*
+music/**
+picture/**
 favicon.ico
+!picture/standart.jpg
