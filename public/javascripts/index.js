@@ -48,8 +48,8 @@ function start() {
 }
 
 async function run() {
-    let json = {};
-    await $.getJSON("confs/conf.json", (data) => json = data);
+    let conf = {};
+    await $.getJSON("confs/conf.json", (data) => conf = data);
     let audioElement = document.getElementById("source");
     audioElement.crossOrigin="anonymous"
     audioElement.play();     
