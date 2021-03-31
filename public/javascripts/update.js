@@ -34,13 +34,13 @@ async function getUpdate() {
 
             let cSong = currentSong.includes("http") ? currentSong : "music/" + currentSong;
             let cPic = currentPic.includes("http") ? currentPic : "picture/" + currentPic;
-
-            if (aSrc != currentSong) {
+            
+            if (aSrc != currentSong && currentSong.replace(" ", "") != "") {
                 stop();
                 audio.src = cSong;
             }
 
-            if (pScr != currentPic) {
+            if (pScr != currentPic && currentPic.replace(" ", "") != "") {
                 pic.src = cPic;
             }      
             

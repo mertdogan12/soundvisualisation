@@ -9,9 +9,9 @@ const conf = require('./conf.json');
     Updates the song 
     Set playing --> true
 */
-router.post("/", function(req, res) {
+router.post("/", function (req, res) {
     try {
-        r = req.body;
+        let r = req.body;
         if (r.fileName == undefined) {
             res.send("fileName is missing")
             return;
@@ -25,26 +25,24 @@ router.post("/", function(req, res) {
         let file = r.fileName;
         let pic = r.picName;
 
-        if (!r.fileName.includes("http://") ) {
-            if (!r.fileName.includes("https://")) {
-                file = conf.soundPath + r.fileName;
+        if (!r.fileName.includes("http://") && !r.fileName.includes("https://")
+            && r.fileName.replace(" ", "") != "") {
+            file = conf.soundPath + r.fileName;
 
-                if (!fs.existsSync(file) || file == conf.soundPath) {
-                    res.send("File not exist: " + file);
-                    return;
-                };
-            }     
+            if (!fs.existsSync(file) || file == conf.soundPath) {
+                res.send("File not exist: " + file);
+                return;
+            }
         }
-        
-        if (!r.picName.includes("http://") ) {
-            if (!r.picName.includes("https://")) {
-                pic = conf.picPath + r.picName;
 
-                if (!fs.existsSync(pic) || pic == conf.picPath) {
-                    res.send("File not exist: " + pic);
-                    return;
-                };
-            }     
+        if (!r.picName.includes("http://") && !r.picName.includes("https://")
+            && r.picName.replace(" ", "") != "") {
+            pic = conf.picPath + r.picName;
+
+            if (!fs.existsSync(pic) || pic == conf.picPath) {
+                res.send("File not exist: " + pic);
+                return;
+            }
         }
 
         Status.currentSong = r.fileName;
@@ -52,7 +50,7 @@ router.post("/", function(req, res) {
         Status.playing = true;
 
         res.sendStatus(200);
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
