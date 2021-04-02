@@ -6,18 +6,37 @@ const fs = require('fs');
 /*
     Sends all Songs awailele
 */
-router.get("/", function(req, res) {
-    fs.readdir(conf.soundPath, (err, files) => {
+router.get("/", function (req, res) {
+    let soundPath = conf.soundPath;
+
+    if (req.query.path != null) soundPath += req.query.path;
+
+    if (!fs.existsSync(soundPath)) {
+        res.sendStatus(500);
+        return;
+    }
+
+    if (soundPath[soundPath.length - 1] != '/') soundPath += '/';
+
+    fs.readdir(soundPath, (err, files) => {
         if (err) {
             res.sendStatus(500);
             throw err;
         }
 
-        out = {
-            "songs": files
+        let out = [];
+
+        for (let i = 0; i < files.length; i++) {
+            let type = "file"
+            if (fs.lstatSync(soundPath + files[i]).isDirectory()) type = "dir";
+
+            out[i] = {
+                "type": type,
+                "name": files[i]
+            }
         }
-        
-        res.json(files);
+
+        res.json(out);
     });
 });
 

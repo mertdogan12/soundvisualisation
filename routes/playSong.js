@@ -29,6 +29,11 @@ router.post("/", function (req, res) {
             && r.fileName.replace(" ", "") != "") {
             file = conf.soundPath + r.fileName;
 
+            if (fs.lstatSync(file).isDirectory()) {
+                res.send("File is an directory: " + file);
+                return;
+            }
+
             if (!fs.existsSync(file) || file == conf.soundPath) {
                 res.send("File not exist: " + file);
                 return;
