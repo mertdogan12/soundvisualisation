@@ -5,6 +5,7 @@
 
 2. Start it
 ```
+npm install
 npm start
 ```
 
