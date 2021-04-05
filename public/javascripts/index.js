@@ -5,12 +5,12 @@ function start() {
     let ctx = canvas.getContext("2d");
 
     let audioElement = document.getElementById("source");
-    
+
     let audioCtx = new AudioContext();
     let analyser = audioCtx.createAnalyser();
     analyser.fftSize = 2048;
     let source = audioCtx.createMediaElementSource(audioElement);
-       
+
     source.connect(analyser);
 
     //this connects our music back to the default output, such as your speakers 
@@ -20,13 +20,13 @@ function start() {
 
     requestAnimationFrame(loopingFunction);
 
-    function loopingFunction(){
+    function loopingFunction() {
         requestAnimationFrame(loopingFunction);
         analyser.getByteFrequencyData(data);
         draw(data);
     }
 
-    function draw(data){
+    function draw(data) {
         data = [...data];
         data = data.slice(300, 600);
 
@@ -37,12 +37,12 @@ function start() {
 
         data.forEach((value, i) => {
             ctx.beginPath();
-        
+
             ctx.moveTo(space * i, canvas.height); //x,y
             ctx.lineTo(space * i, canvas.height - value * 3); //x,y
             ctx.stroke();
         })
-    }   
+    }
 
     document.getElementById("clickMe").style.display = "none";
 }
@@ -51,35 +51,54 @@ async function run() {
     let conf = {};
     await $.getJSON("confs/conf.json", (data) => conf = data);
     let audioElement = document.getElementById("source");
-    audioElement.crossOrigin="anonymous"
-    audioElement.play();     
+    audioElement.crossOrigin = "anonymous"
+    audioElement.play();
 
     audioElement.onended = async () => {
-        const res = await (await fetch(conf.api + "getSongs")).json();
+        let res
         let nextSong;
+        let pos = 0;
+        let songName = audioElement.src
+        let path = ""
 
-        if (audioElement.src.includes(window.location.href)) {
-            let pos = res.indexOf(audioElement.src.replace(window.location.href + "music/", ""));   
+        if (songName.includes(window.location.href)) {
+            songName = audioElement.src.replace(window.location.href + "music/", "");
+            path = songName.split("/").slice(0, -1).join('/');
+            songName = songName.replace(path, "").replace("/", "");
+        }
 
-            console.log(pos);
-            console.log(res.length);
-            console.log(audioElement.src.replace(window.location.href, ""));
-            console.log(res);
+        res = await (await fetch(conf.api + "getSongs?path=" + path)).json();
 
-            if (pos + 1 >= res.length) {
-                nextSong = res[0];
-            } else 
-                nextSong = res[pos + 1];
-        } else 
-            nextSong = res[0];
+        res.forEach((r, i) => { if (songName == r.name) pos = i + 1 });
+
+        if (pos >= res.length) pos = 0;
+
+        console.log("Path: " + path);
+        console.log("Src: " + audioElement.src);
+        console.log("Position: " + pos);
+
+        let wiederholungen = 0
+
+        for (let i = pos; i < res.length; i++) {
+            if (i = res.length - 1 && res[i].type == "dir" && wiederholungen == 0) {
+                wiederholungen++;
+                i = 0;
+            }
+            if (res[i].type == "dir") continue;
+
+            nextSong = res[i].name;
+            break;
+        }
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "fileName": nextSong,
-            "picName": document.getElementById("pic").src
+            "fileName": path + "/" + nextSong,
+            "picName": ""
         });
+
+        console.log("song: " + nextSong)
 
         var requestOptions = {
             method: 'POST',
