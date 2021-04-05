@@ -73,16 +73,14 @@ async function run() {
 
         if (pos >= res.length) pos = 0;
 
-        console.log("Path: " + path);
-        console.log("Src: " + audioElement.src);
-        console.log("Position: " + pos);
-
         let wiederholungen = 0
 
         for (let i = pos; i < res.length; i++) {
+            console.log(res[i].type + " " + i)
+
             if (i == res.length - 1 && res[i].type == "dir" && wiederholungen == 0) {
                 wiederholungen++;
-                i = 0;
+                i = -1;
                 continue;
             }
             if (res[i].type == "dir") continue;
