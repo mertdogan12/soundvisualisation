@@ -80,9 +80,10 @@ async function run() {
         let wiederholungen = 0
 
         for (let i = pos; i < res.length; i++) {
-            if (i = res.length - 1 && res[i].type == "dir" && wiederholungen == 0) {
+            if (i == res.length - 1 && res[i].type == "dir" && wiederholungen == 0) {
                 wiederholungen++;
                 i = 0;
+                continue;
             }
             if (res[i].type == "dir") continue;
 
