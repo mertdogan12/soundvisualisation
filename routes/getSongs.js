@@ -32,7 +32,8 @@ router.get("/", function (req, res) {
 
             out[i] = {
                 "type": type,
-                "name": files[i]
+                "name": files[i],
+                "path": soundPath.replace(conf.soundPath, "") + files[i]
             }
         }
 
