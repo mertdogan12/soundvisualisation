@@ -14,3 +14,4 @@ npm start
 
 ## 
 + Music files --> public/music/
++ Picture files --> public/pictures/
