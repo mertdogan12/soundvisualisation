@@ -50,8 +50,8 @@ router.post("/", function (req, res) {
             }
         }
 
-        Status.currentSong = r.fileName;
-        Status.pic = r.picName;
+        if (r.fileName.replace(" ", "") != "") Status.currentSong = r.fileName;
+        if (r.picName.replace(" ", "") != "") Status.pic = r.picName;
         Status.playing = true;
         Status.pause = false
 
