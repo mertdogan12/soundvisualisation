@@ -53,6 +53,7 @@ router.post("/", function (req, res) {
         Status.currentSong = r.fileName;
         Status.pic = r.picName;
         Status.playing = true;
+        Status.pause = false
 
         res.sendStatus(200);
     } catch (e) {
