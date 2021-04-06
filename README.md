@@ -3,9 +3,12 @@
 ## Usage
 1. Install [Node.js](https://nodejs.org/en/download/)
 
-2. Start it
+2. Install npm packages it
 ```
 npm install
+```
+3. Start it
+```
 npm start
 ```
 
