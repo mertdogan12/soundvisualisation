@@ -11,6 +11,7 @@ npm install
 ```
 npm start
 ```
+4. Goto [http://localhost:3000/](http://localhost:3000/)
 
 ## Api
 + [Postman link](https://documenter.getpostman.com/view/14220165/TWDXnGZs)
