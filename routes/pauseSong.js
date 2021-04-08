@@ -1,4 +1,4 @@
-var Status = require("./status.json");
+var Status = require("./jsons/status.json");
 var express = require('express');
 var router = express.Router();
 
@@ -6,7 +6,7 @@ var router = express.Router();
     sets pause to true
 */
 router.get("/", function(req, res) {
-    Status.pause = false;
+    Status.pause = true;
     res.sendStatus(200);
 });
 

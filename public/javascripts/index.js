@@ -54,63 +54,7 @@ async function run() {
     audioElement.crossOrigin = "anonymous"
     audioElement.play();
 
-    audioElement.onended = async () => {
-        let res
-        let nextSong;
-        let pos = 0;
-        let songName = audioElement.src
-        let path = ""
-
-        if (songName.includes(window.location.href)) {
-            songName = audioElement.src.replace(window.location.href + "music/", "");
-            path = songName.split("/").slice(0, -1).join('/');
-            songName = songName.replace(path, "").replace("/", "");
-        }
-
-        res = await (await fetch(conf.api + "getSongs?path=" + path)).json();
-
-        res.forEach((r, i) => { if (songName == r.name) pos = i + 1 });
-
-        if (pos >= res.length) pos = 0;
-
-        let wiederholungen = 0
-
-        for (let i = pos; i < res.length; i++) {
-            console.log(res[i].type + " " + i)
-
-            if (i == res.length - 1 && res[i].type == "dir" && wiederholungen == 0) {
-                wiederholungen++;
-                i = -1;
-                continue;
-            }
-            if (res[i].type == "dir") continue;
-
-            nextSong = res[i].name;
-            break;
-        }
-
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        var raw = JSON.stringify({
-            "fileName": path + "/" + nextSong,
-            "picName": ""
-        });
-
-        console.log("song: " + nextSong)
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        fetch(conf.api + "playSong", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    }
+    audioElement.onended = () => { fetch(conf.api + "skipSong") }
 }
 
 function stop() {

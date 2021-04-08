@@ -27,6 +27,11 @@ async function getUpdate() {
         let currentPic = res.pic;
         let pic = document.getElementById("pic");
 
+        if (res.pause) {
+            document.getElementById("source").pause();
+            return;
+        }
+
         if (res.playing) {        
 
             let aSrc = audio.src.includes(window.location.href) ? audio.src.replace(window.location.href + "music/", "") : audio.src;

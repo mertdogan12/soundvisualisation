@@ -1,9 +1,9 @@
-var Status = require("./status.json");
+var Status = require("./jsons/status.json");
+const conf = require('./jsons/conf.json');
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const conf = require('./conf.json');
 
 /*
     Updates the song 

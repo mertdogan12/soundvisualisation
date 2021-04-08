@@ -1,44 +1,47 @@
-var conf = require("./conf.json");
+var conf = require("./jsons/conf.json");
 var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 
 /*
-    Sends all Songs awailele
+    Sends all Songs awaileble
 */
 router.get("/", function (req, res) {
-    let soundPath = conf.soundPath;
+    const songs = getSongs(req.query.path);
 
-    if (req.query.path != null) soundPath += req.query.path;
-
-    if (!fs.existsSync(soundPath)) {
-        res.sendStatus(500);
+    if (typeof songs == "string") {
+        res.send(songs);
         return;
     }
 
-    if (soundPath[soundPath.length - 1] != '/') soundPath += '/';
-
-    fs.readdir(soundPath, (err, files) => {
-        if (err) {
-            res.sendStatus(500);
-            throw err;
-        }
-
-        let out = [];
-
-        for (let i = 0; i < files.length; i++) {
-            let type = "file"
-            if (fs.lstatSync(soundPath + files[i]).isDirectory()) type = "dir";
-
-            out[i] = {
-                "type": type,
-                "name": files[i],
-                "path": soundPath.replace(conf.soundPath, "") + files[i]
-            }
-        }
-
-        res.json(out);
-    });
+    res.json(songs);
 });
 
+function getSongs(path) {
+    let soundPath = conf.soundPath;
+    if (path != null) soundPath += path;
+
+    if (!fs.existsSync(soundPath)) { return "File not exist"; }
+
+    if (soundPath[soundPath.length - 1] != '/') soundPath += '/';
+
+    let files = fs.readdirSync(soundPath)
+
+    let out = [];
+
+    for (let i = 0; i < files.length; i++) {
+        let type = "file"
+        if (fs.lstatSync(soundPath + files[i]).isDirectory()) type = "dir";
+
+        out[i] = {
+            "type": type,
+            "name": files[i],
+            "path": soundPath.replace(conf.soundPath, "") + files[i]
+        }
+    }
+
+    return out;
+}
+
 module.exports = router;
+module.exports.getSongs = getSongs;
