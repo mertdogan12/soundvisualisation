@@ -29,14 +29,20 @@ function getSongs(path) {
 
     let out = [];
 
-    for (let i = 0; i < files.length; i++) {
+    out[0] = {
+        "type": "dir",
+	"name": "..",
+	"path": path.split("/").splice(0, -1).join("/")
+    }
+
+    for (let i = 1; i <= files.length; i++) {
         let type = "file"
-        if (fs.lstatSync(soundPath + files[i]).isDirectory()) type = "dir";
+        if (fs.lstatSync(soundPath + files[i - 1]).isDirectory()) type = "dir";
 
         out[i] = {
             "type": type,
-            "name": files[i],
-            "path": soundPath.replace(conf.soundPath, "") + files[i]
+            "name": files[i - 1],
+            "path": soundPath.replace(conf.soundPath, "") + files[i - 1]
         }
     }
 
