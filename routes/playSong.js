@@ -5,10 +5,12 @@ var router = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-/*
-    Updates the song 
-    Set playing --> true
-*/
+/**
+ * Updates the song if the song is not blank
+ * Updates the picture if the pic is not blank
+ * Sets playing to true
+ * Sets pause to false
+ */
 router.post("/", function (req, res) {
     try {
         let r = req.body;

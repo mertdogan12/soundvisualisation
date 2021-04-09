@@ -2,9 +2,9 @@ var Status = require("./jsons/status.json");
 var express = require('express');
 var router = express.Router();
 
-/*
-    sets pause to true
-*/
+/**
+ * Sets pause to true
+ */
 router.get("/", function(req, res) {
     Status.pause = true;
     res.sendStatus(200);

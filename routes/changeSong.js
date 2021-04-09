@@ -1,6 +1,10 @@
 var Status = require("./jsons/status.json");
 var getSongs = require("./getSongs")
 
+/**
+ * The accutal function who:
+ * can go one song back or forward
+ */
 function changeSong(action) {
     let currentSong = Status.currentSong;
     let path = ""
@@ -41,10 +45,10 @@ function changeSong(action) {
 
         if (pos < 0) pos = songs.length - 1;
 
-        for (let i = pos; i > 0; i--) {
+        for (let i = pos; i >= 0; i--) {
             console.log(i + " | " + songs[i].name)
 
-            if (i == 1 && songs[i].type == "dir" && wiederholungen == 0) {
+            if (i == 0 && songs[i].type == "dir" && wiederholungen == 0) {
                 wiederholungen++;
                 i = songs.length - 1;
                 continue;

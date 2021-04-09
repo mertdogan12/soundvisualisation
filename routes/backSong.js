@@ -2,6 +2,9 @@ var express = require('express');
 var changeSong = require('./changeSong');
 var router = express.Router();
 
+/**
+ * Goes one song back
+ */
 router.get("/", function(req, res) {
     let err = changeSong.changeSong("back");
 

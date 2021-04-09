@@ -3,9 +3,10 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 
-/*
-    Sends all Songs awaileble
-*/
+/**
+ * Sends all song and dir in a specific path
+ * if the path is not set it return the song and dirs of the root path
+ */
 router.get("/", function (req, res) {
     const songs = getSongs(req.query.path);
 
