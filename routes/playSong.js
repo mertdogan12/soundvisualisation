@@ -4,6 +4,8 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
+const getIp = require('./ip.js');
 
 /**
  * Updates the song if the song is not blank
@@ -13,14 +15,18 @@ const path = require('path');
  */
 router.post("/", function (req, res) {
     try {
+        const ip = getIp();
+
         let r = req.body;
         if (r.fileName == undefined) {
             res.send("fileName is missing")
+	    logLoki(ip + " - playSong - Error: fileName is missing");
             return;
         }
 
         if (r.picName == undefined) {
             res.send("picName is missing")
+	    logLoki(ip + " - playSong - Error: picName is missing");
             return;
         }
 
@@ -33,11 +39,13 @@ router.post("/", function (req, res) {
 
             if (fs.lstatSync(file).isDirectory()) {
                 res.send("File is an directory: " + file);
+                logLoki(ip + " - playSong - Error: File is an directory: " + file);
                 return;
             }
 
             if (!fs.existsSync(file) || file == conf.soundPath) {
                 res.send("File not exist: " + file);
+                logLoki(ip + " - playSong - Error: File not exist: " + file);
                 return;
             }
         }
@@ -48,6 +56,7 @@ router.post("/", function (req, res) {
 
             if (!fs.existsSync(pic) || pic == conf.picPath) {
                 res.send("File not exist: " + pic);
+                logLoki(ip + " - playSong - Error: File not exist: " + pic);
                 return;
             }
         }
@@ -56,12 +65,50 @@ router.post("/", function (req, res) {
         if (r.picName.replace(" ", "") != "") Status.pic = r.picName;
         Status.playing = true;
         Status.pause = false
-
+        
+	logLoki(ip + " - playSong - " + r.fileName);
         res.sendStatus(200);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
 });
+
+/**
+ * Sends logs to loki
+ */
+function logLoki(log) {
+    var myHeaders = {
+        'Content-Type': "application/json"
+    } 
+
+    var json = JSON.stringify({
+        "streams": [
+            {     
+            "stream": {
+              "job": "song"
+            },
+            "values": [
+              [
+                (Date.now() * 1000000).toString(),
+                log
+              ]
+            ]
+          }
+        ]
+    });
+    
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+	body: json,
+	redirect: 'follow'
+    };
+
+    fetch(conf.lokiUrl +  "loki/api/v1/push", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
 
 module.exports = router;

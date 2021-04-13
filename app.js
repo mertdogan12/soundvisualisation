@@ -10,8 +10,8 @@ var playSong = require("./routes/playSong");
 var pauseSong = require("./routes/pauseSong")
 var stopSong = require("./routes/stopSong");
 var getSongs = require("./routes/getSongs");
-var skipSong = require("./routes/skipSong")
-var backSong = require("./routes/backSong")
+var skipSong = require("./routes/skipSong");
+var backSong = require("./routes/backSong");
 var cors = require('cors');
 // var usersRouter = require('./routes/users');
 
