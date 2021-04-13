@@ -1,20 +1,23 @@
-var express = require('express');
-var changeSong = require('./changeSong');
-var router = express.Router();
+const express = require('express');
+const changeSong = require('./changeSong');
+const logLoki = require('./loki.js');
+const ip = require('./ip.js');
+const router = express.Router();
 
 /**
  * Goes one song back
  */
 router.get("/", function(req, res) {
 	let err = changeSong.changeSong("back");
+	const ips = req.ip + "/" + ip(); 
 
 	if (typeof err == "string") {
 		res.send(err);
-		logLoki(ip() + " - backSong - Error: " + err);
+		logLoki(ips + " - backSong - Error: " + err);
 		return;
 	}
 
-	logLoki(ip() + " - backSong");
+	logLoki(ips + " - backSong");
 	res.sendStatus(200);
 });
 

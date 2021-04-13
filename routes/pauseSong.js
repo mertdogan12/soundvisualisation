@@ -1,13 +1,18 @@
-var Status = require("./jsons/status.json");
-var express = require('express');
-var router = express.Router();
+const Status = require("./jsons/status.json");
+const express = require('express');
+const logLoki = require("./loki.js");
+const ip = require("./ip");
+const router = express.Router();
 
 /**
  * Sets pause to true
  */
 router.get("/", function(req, res) {
-    Status.pause = true;
-    res.sendStatus(200);
+	Status.pause = true;
+
+	logLoki(req.ip + "/" + ip() + 
+		" - pauseSong")
+	res.sendStatus(200);
 });
 
 module.exports = router;

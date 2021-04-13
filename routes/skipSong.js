@@ -9,14 +9,15 @@ const router = express.Router();
  */
 router.get("/", function(req, res) {
 	let err = changeSong.changeSong("next");
+	const ips = req.ip + "/" + ip();
 
 	if (typeof err == "string") {
 		res.send(err);
-		logLoki(ip() + " - skipSong - Error: " + err);
+		logLoki(ips + " - skipSong - Error: " + err);
 		return;
 	}
 
-	logLoki(ip() + " - skipSong");
+	logLoki(ips + " - skipSong");
 	res.sendStatus(200);
 });
 
