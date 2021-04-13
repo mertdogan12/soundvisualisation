@@ -13,11 +13,11 @@ module.exports = function ip() {
 				if (!results[name]) {
 					results[name] = [];
 				}
-	
+
 				results[name].push(net.address);
 			}
 		}
 	}
 
-	return results[Object.keys(results)[0]][0]; 
+	return results[Object.keys(results)[0]][0];
 }

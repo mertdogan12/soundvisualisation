@@ -1,11 +1,11 @@
-var Status = require("./jsons/status.json");
+const Status = require("./jsons/status.json");
 const conf = require('./jsons/conf.json');
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
 const getIp = require('./ip.js');
+const logLoki = require('./loki.js')
 
 /**
  * Updates the song if the song is not blank
@@ -73,42 +73,5 @@ router.post("/", function (req, res) {
         res.sendStatus(500);
     }
 });
-
-/**
- * Sends logs to loki
- */
-function logLoki(log) {
-    var myHeaders = {
-        'Content-Type': "application/json"
-    } 
-
-    var json = JSON.stringify({
-        "streams": [
-            {     
-            "stream": {
-              "job": "song"
-            },
-            "values": [
-              [
-                (Date.now() * 1000000).toString(),
-                log
-              ]
-            ]
-          }
-        ]
-    });
-    
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-	body: json,
-	redirect: 'follow'
-    };
-
-    fetch(conf.lokiUrl +  "loki/api/v1/push", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-}
 
 module.exports = router;
