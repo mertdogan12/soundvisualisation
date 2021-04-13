@@ -1,5 +1,5 @@
 {
     "soundPath": "public/music/",
     "picPath": "public/picture/",
-    "lokiUrl": "http://192.168.178.54:3100/"
+    "lokiUrl": "http://localhost:3100/"
 }
