@@ -1,5 +1,8 @@
 # Soundvisualisation
 
+## Loki
+- logs are saved in [Loki](routes/jsons/conf.json)
+
 ## Usage
 1. Install [Node.js](https://nodejs.org/en/download/)
 
