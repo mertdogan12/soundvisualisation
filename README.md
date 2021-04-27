@@ -3,7 +3,7 @@
 ## Usage
 1. Install [Node.js](https://nodejs.org/en/download/)
 
-2. Install npm packages it
+2. Install npm packages 
 ```
 npm install
 ```
